@@ -1,0 +1,5 @@
+# comment line 1
+whoami
+
+# comment line 2
+uptime
