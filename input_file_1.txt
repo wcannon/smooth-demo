@@ -1,5 +1,5 @@
-# comment line 1
+# this command will show the logged in user
 whoami
 
-# comment line 2
+# the uptime command shows how long the server has been running since last reboot 
 uptime

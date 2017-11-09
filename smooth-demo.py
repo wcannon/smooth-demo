@@ -37,11 +37,14 @@ def run_cmd(somelist, color='red'):
     if type(somelist) != list:
         print type(somelist)
         return ''
-    output = subprocess.check_output(somelist)
-    output.rstrip('\n')
-    print
-    colored_output = colored(output, color)
-    print colored_output
+    try:
+        output = subprocess.check_output(somelist)
+        output.rstrip('\n')
+        # print
+        colored_output = colored(output, color)
+        print colored_output
+    except:
+        print "Command produced error - unable to run"
     return
 
 def load_file(filename):
@@ -139,7 +142,6 @@ if __name__ == "__main__":
     shell_prompt = ARGS['--shell-prompt']
     if shell_prompt == "None" or shell_prompt == None:
         shell_prompt = '$ > '
-    time.sleep(5)
     main(inputfile, char_delay, comment_color, comment_sleep,
          command_color, command_sleep, command_output_color,
          command_output_sleep, shell_prompt)
