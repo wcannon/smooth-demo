@@ -28,7 +28,7 @@ def print_slowly(somestr=None, char_delay=0.3, sleep_delay=5.0, color=None):
     time.sleep(sleep_delay)
     return
 
-def run_cmd(somelist):
+def run_cmd(somelist, color='red'):
     # TODO:
     # there is a bug here when dealing with quotes in the command list
     if type(somelist) != list:
@@ -37,7 +37,8 @@ def run_cmd(somelist):
     output = subprocess.check_output(somelist)
     output.rstrip('\n')
     print
-    print output
+    colored_output = colored(output, color)
+    print colored_output
     return
 
 def load_file(filename):
@@ -62,7 +63,7 @@ def validate_color(color, line_type):
         elif line_type == 'command':
             ret_color = 'green'
         elif line_type == 'command_output':
-            ret_color = 'white'
+            ret_color = 'red'
         else:
             ret_color = 'green'
     return ret_color
@@ -104,10 +105,10 @@ def main(inputfile, char_delay, comment_color, comment_sleep,
         if t == 'command':
             l.rstrip('\n')
             l_as_list = shlex.split(l)
-            print '# ',
+            print '{} '.format(shell_prompt),
             print_slowly(somestr=l, char_delay=char_delay, sleep_delay=command_sleep, color=command_color)
             time.sleep(2)
-            run_cmd(l_as_list)
+            run_cmd(l_as_list, command_output_color)
             time.sleep(command_output_sleep)
             run_cmd(['clear'])
 
@@ -130,8 +131,8 @@ if __name__ == "__main__":
     #print "command_output_sleep: {}".format(command_output_sleep)
     inputfile = ARGS['<inputfile>']
     shell_prompt = ARGS['--shell-prompt']
-    if shell_prompt == "None":
-        shell_prompt = None
+    if shell_prompt == "None" or shell_prompt == None:
+        shell_prompt = '$ > '
 
     main(inputfile, char_delay, comment_color, comment_sleep,
          command_color, command_sleep, command_output_color,
