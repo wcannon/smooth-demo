@@ -24,7 +24,6 @@ def print_slowly(somestr=None, char_delay=0.3, sleep_delay=5.0, color=None):
         char = colored(c, color)
         sys.stdout.write(char)
         sys.stdout.flush()
-        print "char_delay in print_slowly: {}".format(char_delay)
         time.sleep(char_delay)
     time.sleep(sleep_delay)
     return
@@ -73,15 +72,15 @@ def validate_sleep(sleep_time, sleep_type):
     if type(sleep_time) == 'float' or type(sleep_time) == 'int':
         ret_sleep_time = sleep_time
     elif sleep_type == 'char_delay':
-        ret_sleep_time = '0.8'
+        ret_sleep_time = 0.2
     elif sleep_type == 'comment':
-        ret_sleep_time = '5'
+        ret_sleep_time = 5
     elif sleep_type == 'command':
-        ret_sleep_time = '5'
+        ret_sleep_time = 5
     elif sleep_type == 'command_output':
-        ret_sleep_time = '8'
+        ret_sleep_time = 8
     else: 
-        ret_sleep_time = '5'
+        ret_sleep_time = 5
     return ret_sleep_time
    
 def main(inputfile, char_delay, comment_color, comment_sleep,
@@ -100,14 +99,12 @@ def main(inputfile, char_delay, comment_color, comment_sleep,
             char = colored('-', comment_color)
             print char * length
             # def print_slowly(somestr, char_delay=0.2, sleep_delay=5, color)
-            print "char_delay: {}".format(char_delay)
             print_slowly(somestr=l, char_delay=char_delay, sleep_delay=comment_sleep, color=comment_color)
             print char * length
         if t == 'command':
             l.rstrip('\n')
             l_as_list = shlex.split(l)
             print '# ',
-            print "char_delay: {}".format(char_delay)
             print_slowly(somestr=l, char_delay=char_delay, sleep_delay=command_sleep, color=command_color)
             time.sleep(2)
             run_cmd(l_as_list)
