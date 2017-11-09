@@ -1,3 +1,6 @@
+# test command
+grep 'hello world' *
+
 # this command will show the logged in user
 whoami
 
