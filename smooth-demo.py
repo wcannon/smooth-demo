@@ -43,13 +43,21 @@ def run_cmd(somelist, color='red'):
         # print
         colored_output = colored(output, color)
         print colored_output
-    except:
-        print "Command produced error - unable to run"
+    except Exception, e:
+        output = "Command produced error - unable to run: {}".format(e)
+        colored_output = colored(output, color)
+        print colored_output
+        raise
     return
 
 def load_file(filename):
-    f = open(filename, 'r')
-    lines = f.readlines()
+    lines = []
+    try:
+        f = open(filename, 'r')
+        lines = f.readlines()
+    except Exception, e:
+        print "Unable to load file: {}".format(filename)
+        raise
     return lines
 
 def get_line_type(line):
@@ -98,7 +106,10 @@ def main(inputfile, char_delay, comment_color, comment_sleep,
          command_output_sleep, shell_prompt):
     # TODO:
     # catch user hitting space bar, and pause program until space bar hit again
-    lines = load_file(sys.argv[1])
+    try:
+        lines = load_file(sys.argv[1])
+    except:
+        sys.exit(1)
     run_cmd(['clear'])
     for l in lines:
         t = get_line_type(l)
@@ -117,27 +128,30 @@ def main(inputfile, char_delay, comment_color, comment_sleep,
             print '{} '.format(shell_prompt),
             print_slowly(somestr=l, char_delay=char_delay, sleep_delay=command_sleep, color=command_color)
             #time.sleep(2)
-            run_cmd(l_as_list, command_output_color)
+            try:
+                run_cmd(l_as_list, command_output_color)
+            except:
+                pass
             time.sleep(command_output_sleep)
             run_cmd(['clear'])
 
 if __name__ == "__main__":
     ARGS = docopt(__doc__)
-    print(ARGS)
+    # print(ARGS)
     char_delay = validate_sleep(ARGS['--char-delay'], 'char_delay')
-    print "char_delay after validation: {}".format(char_delay)
+    # print "char_delay after validation: {}".format(char_delay)
     comment_color = validate_color(ARGS['--comment-color'], 'comment')
-    print "comment_color: {}".format(comment_color)
+    # print "comment_color: {}".format(comment_color)
     comment_sleep = validate_sleep(ARGS['--comment-sleep'], 'comment')
-    print "comment_sleep: {}".format(comment_sleep)
+    # print "comment_sleep: {}".format(comment_sleep)
     command_color = validate_color(ARGS['--command-color'], 'command')
-    print "command_color: {}".format(command_color)
+    # print "command_color: {}".format(command_color)
     command_sleep = validate_sleep(ARGS['--command-sleep'], 'command')
-    print "command_sleep: {}".format(command_sleep)
+    # print "command_sleep: {}".format(command_sleep)
     command_output_color = validate_color(ARGS['--command-output-color'], 'command_output')
-    print "command_output_color: {}".format(command_output_color)
+    # print "command_output_color: {}".format(command_output_color)
     command_output_sleep = validate_sleep(ARGS['--command-output-sleep'], 'command_output')
-    print "command_output_sleep: {}".format(command_output_sleep)
+    # print "command_output_sleep: {}".format(command_output_sleep)
     inputfile = ARGS['<inputfile>']
     shell_prompt = ARGS['--shell-prompt']
     if shell_prompt == "None" or shell_prompt == None:
@@ -145,4 +159,3 @@ if __name__ == "__main__":
     main(inputfile, char_delay, comment_color, comment_sleep,
          command_color, command_sleep, command_output_color,
          command_output_sleep, shell_prompt)
-
