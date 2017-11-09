@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 """Usage: smooth-demo.py <inputfile> [options]
 
-Arguments:
+Valid colors are: grey red green yellow blue magenta cyan white
+Valid --char-delay = float / int
+Valid --[comment|command|command-output]-sleep = float / int
+
+Options:
     <inputfile>  		Path to file to read in comments and commands
     --comment-color 		Color to use for comments 
     --command-color 		Color to use for commands
@@ -11,7 +15,6 @@ Arguments:
     --command-sleep	 	Delay time to pause after printing a command
     --command-output-sleep	Delay time to pause after printing output of return from command
     --shell-prompt		Change terminal shell prompt
-Options:
     -h --help
 """
 from docopt import docopt
