@@ -57,6 +57,7 @@ def get_line_type(line):
 def validate_color(color, line_type):
     '''Given a color, and line_type, return an appropriate default, or the color given if valid'''
     valid_colors = "grey red green yellow blue magenta cyan white".split() # for termcolor library
+    ret_color = color 
     if color not in valid_colors: # includes if value is None
         if line_type == 'comment':
             ret_color = 'cyan'
@@ -70,18 +71,20 @@ def validate_color(color, line_type):
 
 def validate_sleep(sleep_time, sleep_type):
     '''Given a sleep_time, and a sleep_type, return an appropriate default, or the time given if valid'''
-    if type(sleep_time) == 'float' or type(sleep_time) == 'int':
+    if type(sleep_time) == str:
+        sleep_time = float(sleep_time)
+    if type(sleep_time) == float or type(sleep_time) == int:
         ret_sleep_time = sleep_time
     elif sleep_type == 'char_delay':
-        ret_sleep_time = 0.2
+        ret_sleep_time = 0.05
     elif sleep_type == 'comment':
-        ret_sleep_time = 5
+        ret_sleep_time = 2
     elif sleep_type == 'command':
-        ret_sleep_time = 5
+        ret_sleep_time = 2
     elif sleep_type == 'command_output':
-        ret_sleep_time = 8
+        ret_sleep_time = 4 
     else: 
-        ret_sleep_time = 5
+        ret_sleep_time = 4 
     return ret_sleep_time
    
 def main(inputfile, char_delay, comment_color, comment_sleep,
@@ -107,33 +110,33 @@ def main(inputfile, char_delay, comment_color, comment_sleep,
             l_as_list = shlex.split(l)
             print '{} '.format(shell_prompt),
             print_slowly(somestr=l, char_delay=char_delay, sleep_delay=command_sleep, color=command_color)
-            time.sleep(2)
+            #time.sleep(2)
             run_cmd(l_as_list, command_output_color)
             time.sleep(command_output_sleep)
             run_cmd(['clear'])
 
 if __name__ == "__main__":
     ARGS = docopt(__doc__)
-    #print(ARGS)
+    print(ARGS)
     char_delay = validate_sleep(ARGS['--char-delay'], 'char_delay')
     print "char_delay after validation: {}".format(char_delay)
     comment_color = validate_color(ARGS['--comment-color'], 'comment')
-    #print "comment_color: {}".format(comment_color)
+    print "comment_color: {}".format(comment_color)
     comment_sleep = validate_sleep(ARGS['--comment-sleep'], 'comment')
-    #print "comment_sleep: {}".format(comment_sleep)
+    print "comment_sleep: {}".format(comment_sleep)
     command_color = validate_color(ARGS['--command-color'], 'command')
-    #print "command_color: {}".format(command_color)
+    print "command_color: {}".format(command_color)
     command_sleep = validate_sleep(ARGS['--command-sleep'], 'command')
-    #print "command_sleep: {}".format(command_sleep)
+    print "command_sleep: {}".format(command_sleep)
     command_output_color = validate_color(ARGS['--command-output-color'], 'command_output')
-    #print "command_output_color: {}".format(command_output_color)
+    print "command_output_color: {}".format(command_output_color)
     command_output_sleep = validate_sleep(ARGS['--command-output-sleep'], 'command_output')
-    #print "command_output_sleep: {}".format(command_output_sleep)
+    print "command_output_sleep: {}".format(command_output_sleep)
     inputfile = ARGS['<inputfile>']
     shell_prompt = ARGS['--shell-prompt']
     if shell_prompt == "None" or shell_prompt == None:
         shell_prompt = '$ > '
-
+    time.sleep(5)
     main(inputfile, char_delay, comment_color, comment_sleep,
          command_color, command_sleep, command_output_color,
          command_output_sleep, shell_prompt)
