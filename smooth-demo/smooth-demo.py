@@ -33,6 +33,7 @@ def print_slowly(somestr=None, char_delay=0.3, sleep_delay=5.0, color=None):
     return
 
 def run_cmd(command_str, color='red'):
+    output = None
     try:
         output = subprocess.check_output(command_str, shell=True, stderr=subprocess.STDOUT)
         output.rstrip('\n')
@@ -43,7 +44,7 @@ def run_cmd(command_str, color='red'):
         colored_output = colored(output, color)
         print(colored_output)
         raise
-    return
+    return output
 
 def load_file(filename):
     lines = []
@@ -133,7 +134,8 @@ def main(inputfile, char_delay, comment_color, comment_sleep,
 
 if __name__ == "__main__":
     ARGS = docopt(__doc__)
-    # print(ARGS)
+    print(ARGS)
+    # time.sleep(10)
     char_delay = validate_sleep(ARGS['--char-delay'], 'char_delay')
     # print "char_delay after validation: {}".format(char_delay)
     comment_color = validate_color(ARGS['--comment-color'], 'comment')
@@ -151,7 +153,9 @@ if __name__ == "__main__":
     inputfile = ARGS['<inputfile>']
     shell_prompt = ARGS['--shell-prompt']
     if shell_prompt == "None" or shell_prompt == None:
-        shell_prompt = '$ > '
+        user = run_cmd('whoami').rstrip('\n')
+        host = run_cmd('hostname').rstrip('\n')
+        shell_prompt = user + '@' + host + ':$ '
     main(inputfile, char_delay, comment_color, comment_sleep,
          command_color, command_sleep, command_output_color,
          command_output_sleep, shell_prompt)
