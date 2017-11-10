@@ -32,19 +32,14 @@ def print_slowly(somestr=None, char_delay=0.3, sleep_delay=5.0, color=None):
     time.sleep(sleep_delay)
     return
 
-def run_cmd(somelist, color='red'):
-    # TODO:
-    # there is a bug here when dealing with quotes in the command list
-    if type(somelist) != list:
-        print((type(somelist)))
-        return ''
+def run_cmd(command_str, color='red'):
     try:
-        output = subprocess.check_output(somelist)
+        output = subprocess.check_output(command_str, shell=True, stderr=subprocess.STDOUT)
         output.rstrip('\n')
         colored_output = colored(output, color)
         print(colored_output)
     except Exception as e:
-        output = "Command produced error - unable to run: {}".format(e)
+        output = "Command produced error: {}".format(e.output)
         colored_output = colored(output, color)
         print(colored_output)
         raise
@@ -110,7 +105,7 @@ def main(inputfile, char_delay, comment_color, comment_sleep,
         lines = load_file(sys.argv[1])
     except:
         sys.exit(1)
-    run_cmd(['clear'])
+    run_cmd('clear')
     for l in lines:
         t = get_line_type(l)
         if t == 'empty':
@@ -123,17 +118,18 @@ def main(inputfile, char_delay, comment_color, comment_sleep,
             print_slowly(somestr=l, char_delay=char_delay, sleep_delay=comment_sleep, color=comment_color)
             print((char * length))
         if t == 'command':
-            l.rstrip('\n')
-            l_as_list = shlex.split(l)
+            #l.rstrip('\n')
+            #l_as_list = shlex.split(l)
             #print('{} '.format(shell_prompt)),
             print_slowly(somestr=l, char_delay=char_delay, sleep_delay=command_sleep, color=command_color)
             #time.sleep(2)
             try:
-                run_cmd(l_as_list, command_output_color)
+                #run_cmd(l_as_list, command_output_color)
+                run_cmd(l, command_output_color)
             except:
                 pass
             time.sleep(command_output_sleep)
-            run_cmd(['clear'])
+            run_cmd('clear')
 
 if __name__ == "__main__":
     ARGS = docopt(__doc__)
