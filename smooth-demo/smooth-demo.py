@@ -17,6 +17,7 @@ Options:
     --shell-prompt		Change terminal shell prompt
     -h --help
 """
+# from __future__ import print_function
 from docopt import docopt
 import sys, time
 import subprocess, shlex
@@ -35,18 +36,17 @@ def run_cmd(somelist, color='red'):
     # TODO:
     # there is a bug here when dealing with quotes in the command list
     if type(somelist) != list:
-        print type(somelist)
+        print((type(somelist)))
         return ''
     try:
         output = subprocess.check_output(somelist)
         output.rstrip('\n')
-        # print
         colored_output = colored(output, color)
-        print colored_output
-    except Exception, e:
+        print(colored_output)
+    except Exception as e:
         output = "Command produced error - unable to run: {}".format(e)
         colored_output = colored(output, color)
-        print colored_output
+        print(colored_output)
         raise
     return
 
@@ -55,8 +55,8 @@ def load_file(filename):
     try:
         f = open(filename, 'r')
         lines = f.readlines()
-    except Exception, e:
-        print "Unable to load file: {}".format(filename)
+    except Exception as e:
+        print(("Unable to load file: {}".format(filename)))
         raise
     return lines
 
@@ -118,14 +118,14 @@ def main(inputfile, char_delay, comment_color, comment_sleep,
         if t == 'comment':
             length = len(l)
             char = colored('-', comment_color)
-            print char * length
+            print((char * length))
             # def print_slowly(somestr, char_delay=0.2, sleep_delay=5, color)
             print_slowly(somestr=l, char_delay=char_delay, sleep_delay=comment_sleep, color=comment_color)
-            print char * length
+            print((char * length))
         if t == 'command':
             l.rstrip('\n')
             l_as_list = shlex.split(l)
-            print '{} '.format(shell_prompt),
+            #print('{} '.format(shell_prompt)),
             print_slowly(somestr=l, char_delay=char_delay, sleep_delay=command_sleep, color=command_color)
             #time.sleep(2)
             try:
