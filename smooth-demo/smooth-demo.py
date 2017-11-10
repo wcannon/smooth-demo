@@ -120,7 +120,7 @@ def main(inputfile, char_delay, comment_color, comment_sleep,
         if t == 'command':
             #l.rstrip('\n')
             #l_as_list = shlex.split(l)
-            #print('{} '.format(shell_prompt)),
+            print('{} '.format(shell_prompt)),
             print_slowly(somestr=l, char_delay=char_delay, sleep_delay=command_sleep, color=command_color)
             #time.sleep(2)
             try:
