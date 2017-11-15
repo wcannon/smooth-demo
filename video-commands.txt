@@ -1,0 +1,20 @@
+# Showing options for smooth-demo
+./smooth-demo.py -h
+
+# Showing a run of sane defaults
+./smooth-demo.py commands_file.txt
+
+# Showing how to override all defaults
+./smooth-demo.py  commands_file.txt \
+    --comment-color   magenta       \
+    --command-color   cyan          \
+    --command-output-color white    \
+    --char-delay  0.1               \
+    --comment-sleep    3            \
+    --command-sleep    3.5          \
+    --command-output-sleep  4       \
+    --shell-prompt   'Custom Prompt Here --> ' 
+    
+    
+Show salt-check wiki page and issues
+- issues is nice b/c it keeps the tracking with the code

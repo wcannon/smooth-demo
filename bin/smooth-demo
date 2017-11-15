@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-"""Usage: smooth-demo.py <inputfile> [options]
+"""
+Usage: smooth-demo.py <inputfile> [options]
 
 Valid colors are: grey red green yellow blue magenta cyan white
 Valid --char-delay = float / int

@@ -1,5 +1,11 @@
+# example of cmd failing
+whoamiii
+
 # test command
 grep 'hello world' *
+
+# test command 2
+grep 'hello' /tmp/*.txt
 
 # this command will show the logged in user
 whoami

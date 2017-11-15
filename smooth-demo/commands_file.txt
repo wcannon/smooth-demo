@@ -1,0 +1,8 @@
+# Example 1 - show logged in user
+whoami
+
+# Example 2 - grep for running bash processes
+ps -ef | grep bash
+
+# Example 3 - show what happens if command fails
+whoareu
