@@ -14,7 +14,3 @@
     --command-sleep    3.5          \
     --command-output-sleep  4       \
     --shell-prompt   'Custom Prompt Here --> ' 
-    
-    
-Show salt-check wiki page and issues
-- issues is nice b/c it keeps the tracking with the code
